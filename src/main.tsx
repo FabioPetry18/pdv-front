@@ -7,6 +7,8 @@ import { ThemeProvider } from '@emotion/react'
 import { CssBaseline } from '@mui/material'
 import { lightTheme } from './theme/theme'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { Cookies } from 'react-cookie'
+import CustomTheme from './theme/CustomTheme'
 
 export default function App() {
   const [count, setCount] = useState(0)
@@ -21,16 +23,15 @@ export default function App() {
 }
 
 
-
-
+//<QueryClientProvider client={client}>
+//   </QueryClientProvider>
+const client = new  QueryClient();
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <QueryClientProvider>
-    <ThemeProvider theme={lightTheme}>
+    <CustomTheme>
       <CssBaseline />
       <App />
-    </ThemeProvider>
-    </QueryClientProvider>
+    </CustomTheme>    
   </React.StrictMode>,
 );
 

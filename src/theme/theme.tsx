@@ -1,12 +1,15 @@
 import { createTheme } from '@mui/material/styles';
-import { blue, orange, red, yellow } from '@mui/material/colors';
+import { blue, orange, pink, purple, red, yellow } from '@mui/material/colors';
 
 export  const lightTheme = createTheme({
   palette: {
+    text: {
+      primary: purple[500]
+    },
     primary: {
-      main: red[600],
-      dark: blue[800],
-      contrastText: yellow[600]
+      main: purple[600],
+      dark: purple[900],
+      contrastText: "#fff"
       
     },
     secondary: {
@@ -16,7 +19,7 @@ export  const lightTheme = createTheme({
       main: red.A400,
     },
     background: {
-        default: red[300],
+        default: "#ececec",
         paper: yellow[500]
     }
   },
@@ -24,10 +27,13 @@ export  const lightTheme = createTheme({
 
 export  const darkTheme = createTheme({
     palette: {
+      text: {
+       primary: "#fff"
+      },
       primary: {
-        main: red[600],
-        dark: blue[800],
-        contrastText: yellow[600]
+        main: blue[300],
+        dark: purple[400],
+        contrastText: "#fff"
         
       },
       secondary: {
@@ -37,8 +43,8 @@ export  const darkTheme = createTheme({
         main: red.A400,
       },
       background: {
-          default: orange[300],
-          paper: yellow[500]
+          default: "#2B2B2B",
+          paper: pink[500]
       }
     },
   });
