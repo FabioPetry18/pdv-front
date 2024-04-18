@@ -1,6 +1,7 @@
 
 import {create} from 'zustand'
 import { PedidoProps } from '../interface/Pedido';
+import { RequestNoCaheWithAuthorization } from '@/service/Requisicao';
 
 
 

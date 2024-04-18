@@ -1,20 +1,23 @@
 import React from "react";
-import { ThemeProvider } from "@emotion/react";
-import { useCookies } from "react-cookie";
 import { lightTheme, darkTheme } from "./theme";
 import { useConfigStore } from "../store/configStore";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { ThemeProvider } from "@/store/provider";
 interface CustomThemeProps {
     children: React.ReactNode;
   }
   
 export default function CustomTheme({ children }: CustomThemeProps) {
-    const [cookies, setCookie, removeCookie] = useCookies(["mode"])
     const config = useConfigStore(state => state);
-      
+        const client = new QueryClient();
+        //            <ThemeProvider theme={config.state.config?.mode == 'light' ? lightTheme : darkTheme}>
+        
         return (
-          <ThemeProvider theme={config.state.config?.mode == 'light' ? lightTheme : darkTheme}>
+          <QueryClientProvider client={client}> 
+          <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
             {children}
-          </ThemeProvider>
+          </ThemeProvider>       
+          </QueryClientProvider>
         );
       }
     

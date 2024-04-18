@@ -2,7 +2,9 @@ import {create} from 'zustand'
 import { persist } from 'zustand/middleware'
 import { UsuariosProps } from '../interface/Pedido';
 import { IUser } from '../interface/login';
-
+import Cookies from 'js-cookie'
+import { RequestNoCacheNoAuthorization, RequestWithCaheWithAuthorization } from '@/service/Requisicao';
+import { toast } from 'react-toastify';
 
 
 export interface UserProps  {
@@ -20,7 +22,14 @@ interface actionProps {
     fetch: (auth?: IUser, token?:string ) => void;
 
 }
-export const useUserStoreZustand = create<UserProps>((set) => ({
+
+interface httpProps {
+  isLoading: (user: UsuariosProps) => void;
+  removeUser: (userId: number) => void;
+  fetch: (auth?: IUser, token?:string ) => void;
+
+}
+export const useUserStore = create<UserProps>((set) => ({
       state: {
         user: null as UsuariosProps | null,
       },
@@ -28,7 +37,9 @@ export const useUserStoreZustand = create<UserProps>((set) => ({
         addUser: (user) =>
           set(() => ({
             state: { user: user },
-          })),
+          }))
+          
+          ,
         removeUser: () =>
           set(() => ({
             state: { user: null },
@@ -42,11 +53,12 @@ export const useUserStoreZustand = create<UserProps>((set) => ({
             const dataAtual = new Date();
             const dataDaqui2Horas = new Date(dataAtual);
             dataDaqui2Horas.setHours(dataAtual.getHours() + 2);
-           // Cookie.set("Authorization", reponse.token, {expires: dataDaqui2Horas})
-            //Cookie.set("Acessos", JSON.stringify(reponse.acessos))
-            //Cookie.set("User_type", reponse.userType)
+            Cookies.set("Authorization", reponse.token, {expires: dataDaqui2Horas})
+            Cookies.set("Acessos", JSON.stringify(reponse.acessos))
+            Cookies.set("User_type", reponse.userType)
 
           } catch (error : any) {
+            toast.error(error.toString());
             throw new Error(error);
           }
         }  
