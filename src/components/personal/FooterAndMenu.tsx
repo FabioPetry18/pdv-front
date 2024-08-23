@@ -28,66 +28,24 @@ import ToogleTheme from "./ToogleTheme"
 import { useMediaQuery } from "@/hooks/mediaQueries"
 import MenuSide from "./menu"
 import { Outlet } from "react-router-dom"
+import { ComboFilial } from "./comboboxFilial"
+import useUser from "@/hooks/useUser"
 
   export function FooterAndMenu() {
-    const [goal, setGoal] = useState(350)
+    const {state, actions} = useUser();
 
-    const data = [
-        {
-          goal: 400,
-        },
-        {
-          goal: 300,
-        },
-        {
-          goal: 200,
-        },
-        {
-          goal: 300,
-        },
-        {
-          goal: 200,
-        },
-        {
-          goal: 278,
-        },
-        {
-          goal: 189,
-        },
-        {
-          goal: 239,
-        },
-        {
-          goal: 300,
-        },
-        {
-          goal: 200,
-        },
-        {
-          goal: 278,
-        },
-        {
-          goal: 189,
-        },
-        {
-          goal: 349,
-        },
-      ]
-      function onClick(adjustment: number) {
-        setGoal(Math.max(200, Math.min(400, goal + adjustment)))
-      }
       const isDesktop = useMediaQuery("(min-width: 919px  )")
     return (
-      <div className="w-full h-full flex">
-        <div className={`${isDesktop && ("w-[300px]")} h-screen flex flex-col gap-4 min-h-screen border-r-[1px] p-4`}>          
+      <div className="w-full h-full  flex">
+        <div className={`${isDesktop && ("w-[300px] border-r-[1px]")} h-screen flex flex-col gap-4 min-h-screen  p-4`}>          
           {isDesktop && (
             <>
-             <Avatar>
+             <Avatar name={state.user?.username}>
              <AvatarImage src="https://github.com/FabioPetry18.png" alt="fab" />
                 <AvatarFallback>ER</AvatarFallback>
             </Avatar>   
+            <ComboFilial/>
             <MenuSide/>  
-            <ToogleTheme/>
             
             </>            
           )}
@@ -112,7 +70,6 @@ import { Outlet } from "react-router-dom"
                         <DrawerClose asChild>
                         <Button variant="outline">Fechar</Button>
                         </DrawerClose>
-                        <ToogleTheme/>
                     </DrawerFooter>
                     </div>
                 </DrawerContent>
@@ -120,7 +77,7 @@ import { Outlet } from "react-router-dom"
             </div>
           )}
         </div>
-        <div className="w-[calc(100%-300px)]">
+        <div className={`flex flex-1  scrollbar-thin scrollbar-thumb-blue-500  `}>
          <Outlet/>
         </div>
       </div>    

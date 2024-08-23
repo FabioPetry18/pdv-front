@@ -124,6 +124,27 @@ const CommandItem = React.forwardRef<
 
 CommandItem.displayName = CommandPrimitive.Item.displayName
 
+const CommandItemMenu = React.forwardRef<
+  React.ElementRef<typeof CommandPrimitive.Item>,
+  React.ComponentPropsWithoutRef<typeof CommandPrimitive.Item>
+>(({ className, ...props }, ref) => {
+  const { onClick, ...restProps } = props;
+
+  return (
+    <div 
+      onClick={onClick}
+      className={cn(
+        "relative flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled='true']:pointer-events-none data-[disabled='true']:opacity-50",
+        className
+      )}
+      ref={ref}
+    >
+      <CommandPrimitive.Item {...restProps} />
+    </div>
+  );
+});
+CommandItemMenu.displayName = CommandPrimitive.Item.displayName
+
 const CommandShortcut = ({
   className,
   ...props

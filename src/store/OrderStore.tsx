@@ -24,7 +24,7 @@ interface actionProps {
 
 }
 
-export const useOrderStore = create<OrderStoreProps>((set) => ({
+export const useOrderStore = create<OrderStoreProps>((set, get) => ({
     state: {
         novosPedidos: [],
         pedidosAceitos:[]
@@ -48,21 +48,22 @@ export const useOrderStore = create<OrderStoreProps>((set) => ({
                 set((state) => ({
                     state: {
                         novosPedidos: state.state.novosPedidos.filter(
-                            (product) => product.pk.numpedido !== productId
+                            (product) => product.pk.numeroPedido !== productId
                         ),
                         pedidosAceitos: state.state.pedidosAceitos
                     }
                 })),
                 fetchPedido: async(LojaId : number) : Promise<void> => {
                     try {
-                        const novosPedidos :PedidoProps[]= await RequestNoCaheWithAuthorization('GET', `pedido?page=1&size=10&codloja=${LojaId}&status=1`, ''); 
                         const pedidosAceitos :PedidoProps[]= await RequestNoCaheWithAuthorization('GET', `pedido?page=1&size=10&codloja=${LojaId}&status=2`, ''); 
-                        set((state) => ({
+                        const novosPedidos :PedidoProps[]= await RequestNoCaheWithAuthorization('GET', `pedido?page=1&size=10&codloja=${LojaId}&status=1`, ''); 
+                        set(({
                             state: { 
                                 pedidosAceitos: pedidosAceitos,
                                 novosPedidos: novosPedidos
                             }
-                        }))          
+                        }))     
+                        console.log(get().state.novosPedidos)
                     } catch (error : any) {
                       throw new Error(error);
                     }
@@ -86,7 +87,7 @@ export const useOrderStore = create<OrderStoreProps>((set) => ({
                         set((state) => ({
                             state: {
                                 novosPedidos: state.state.novosPedidos.filter(
-                                    (product) => product.pk.numpedido !== pedido.pk.numpedido
+                                    (product) => product.pk.numeroPedido !== pedido.pk.numeroPedido
                                 ),
                                 pedidosAceitos: state.state.pedidosAceitos
                             }

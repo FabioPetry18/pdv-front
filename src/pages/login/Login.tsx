@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ReactNode } from "react";
 import Switch from '@mui/material/Switch'
-import { useConfigStore } from "../store/configStore";
+import { useConfigStore } from "../../store/configStore";
 import { Paper, Typography } from "@mui/material";
 import Card from '@mui/material/Card';
 import { Input } from "@/components/ui/input";
@@ -13,7 +13,12 @@ import { useTheme } from "@/store/provider";
 import ToogleTheme from "@/components/personal/ToogleTheme";
 import { Label } from "@/components/ui/label";
 import { useNavigate } from 'react-router'
-
+import { useQuery } from "react-query";
+import { useAuthStore } from "@/store/authStore";
+import {useAutenticarComUsuarioESenha} from "@/hooks/react-query-hooks";
+import { adicionarValoresCookies, fazerLoginUsuarioSenha } from "./service/loginService";
+import { api_post } from "@/api";
+import { UsuariosProps } from "@/interface/Pedido";
 
 
 
@@ -22,22 +27,28 @@ const validation = z.object({
   senha: z.string().min(6).max(10)
 })
 
-type Validation = z.infer<typeof validation>
+type IUser = z.infer<typeof validation>
 
 export default function Login() {
 
   const navigate = useNavigate();
-  const { register, handleSubmit } = useForm<Validation>();
-  const user = useUserStore(state => state.actions);
-    
-    async function getAuthenticating(data: Validation ){
-      try {     
-          await user.fetch(data)       
-          navigate("/dashboard")
-      } catch (error : any) {        
-      }   
-  }
+  const { register, handleSubmit } = useForm<IUser>(); 
+  const usuario = useAuthStore(state => state) ;
+  const {data,isFetched } = api_post('/login/autenticar', usuario.state.autenticacao, !!usuario.state.autenticacao);
 
+  async function getAuthenticating(user: IUser) {
+    try {     
+       await useAuthStore.getState().actions.addAuth(user)
+    } catch (error: any) {      
+       console.log(error);  
+    }   
+   }
+   if(isFetched) {
+    adicionarValoresCookies(data)
+    const dataUser : UsuariosProps = data;
+    navigate('/dashboard', { state: { userInfo: dataUser} });
+
+  }
 
     return (
       <div className="bg-bkg w-screen h-screen">

@@ -8,20 +8,22 @@ import {
     CommandSeparator,
     CommandShortcut,
   } from "@/components/ui/command"
+import { useNavigate } from "react-router-dom";
 
 export default function MenuSide(){
+    const navigate = useNavigate();
 
 
     return(
         <>
          <Command>
-                  <CommandInput placeholder="Type a command or search..." />
+                  <CommandInput placeholder="Pesquisar um módulo" />
                   <CommandList>
                       <CommandEmpty>Nenhum resultado encontrado</CommandEmpty>
                       <CommandGroup heading="Sugestões">
-                      <CommandItem>Dashboard</CommandItem>
-                      <CommandItem>Estoque</CommandItem>
-                      <CommandItem>Produtos</CommandItem>
+                      <div onClick={() => navigate('/dashboard')}><CommandItem>Dashboard</CommandItem></div>
+                      <div onClick={() => navigate('teste')}><CommandItem >Estoque</CommandItem></div>
+                      <div onClick={() => navigate('/teste2')}><CommandItem >Produtos</CommandItem></div>
                       </CommandGroup>
                       <CommandSeparator />
                       <CommandItem>Caixa</CommandItem>

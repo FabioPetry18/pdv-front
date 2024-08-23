@@ -1,17 +1,22 @@
+import { statusPedido } from "./pedidoEnum";
+
+type StatusPedido = (typeof statusPedido)[keyof typeof statusPedido];
 
 export interface PedidoProps {
-    pk: PedidoPK;
-    numpedido:   number;
+    id: PedidoPK;
     produto:  Produto[];
     total:    number;
     pgto:     string;
+    dtpedido:  Date;
     endereco: Endereco;
     cliente: string;
+    status: StatusPedido
     idFuncionario: UsuariosProps
 }
 export interface PedidoPK {
-    numpedido:    number;
-    codloja: number;
+    numeroPedido:    number;
+    codproduto: number;
+    idlojaPedido: number;
 }
 
 export interface Endereco {
@@ -21,10 +26,12 @@ export interface Endereco {
 }
 
 export interface Produto {
-    coditprod: string;
+    codproduto: number;
     descricao: string;
-    qtd:       string;
-    total:     number;
+    qtd:       number;
+    idLojaProduto: number;
+    idLojaEntrega: number;
+    dpi:  number;
 }
 
 export interface UsuariosProps  {
@@ -38,7 +45,8 @@ export interface UsuariosProps  {
     visualizacaoLoja: LojasProps
     acessos: Acessos[]
     assinatura: AssinaturaProps
-    primeiroAcesso: boolean
+    primeiroAcesso: boolean,
+    token: string;
  }
 
 
@@ -55,7 +63,7 @@ interface FuncionariosProps {
     nome: string
 }
 
-interface LojasProps {
+export interface LojasProps {
     id: number
     nome: string
     aberta: boolean

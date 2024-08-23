@@ -2,21 +2,29 @@ import * as React from "react"
 import * as AvatarPrimitive from "@radix-ui/react-avatar"
 
 import { cn } from "@/lib/utils"
-
+import ToogleTheme from "../personal/ToogleTheme";
+interface AvatarProps extends React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Root> {
+  name?: string;
+}
 const Avatar = React.forwardRef<
   React.ElementRef<typeof AvatarPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Root>
->(({ className, ...props }, ref) => (
-  <AvatarPrimitive.Root
-    ref={ref}
-    className={cn(
-      "relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full",
-      className
-    )}
-    {...props}
-  />
-))
-Avatar.displayName = AvatarPrimitive.Root.displayName
+  AvatarProps
+>(({ className, name, ...props }, ref) => (
+  <div className="flex items-center space-x-2">
+    <AvatarPrimitive.Root
+      ref={ref}
+      className={cn(
+        "relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full",
+        className
+      )}
+      {...props}
+    />
+    {name && <span className="text-sm font-medium">{name}</span>}
+                <ToogleTheme/>
+
+  </div>
+));
+Avatar.displayName = AvatarPrimitive.Root.displayName;
 
 const   AvatarImage = React.forwardRef<
   React.ElementRef<typeof AvatarPrimitive.Image>,

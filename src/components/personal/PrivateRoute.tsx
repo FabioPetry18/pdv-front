@@ -8,9 +8,7 @@ children: ReactNode
 }
 
 export default function PrivateRoute(redirectTo: RedirectTo){
-
     const isAuthenticated = Cookies.get("Authorization") !== null && Cookies.get("Authorization") !== undefined;
-
     console.log("autenticado: " + isAuthenticated)
     return isAuthenticated ? redirectTo.children : <Navigate to={redirectTo.RedirectTo}/>
 }

@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { useState } from 'react'
 import { BrowserRouter,createBrowserRouter,Route,RouterProvider,Routes } from 'react-router-dom'
-import Login from './pages/Login'
+import Login from './pages/login/Login'
 import { ThemeProvider } from '@emotion/react'
 import { CssBaseline } from '@mui/material'
 import { lightTheme } from './theme/theme'
@@ -11,28 +11,13 @@ import CustomTheme from './theme/CustomTheme'
 import './index.css'
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify'
-import Dashboard from './pages/Dashboard'
+import Dashboard from './pages/dashboard/Dashboard'
 import Teste from './pages/teste'
 import Page404Error from './components/personal/Error404'
 import { FooterAndMenu } from './components/personal/FooterAndMenu'
 import PrivateRoute from './components/personal/PrivateRoute'
-export default function App() {
-  const [count, setCount] = useState(0)
- 
-  return (
+import Teste2 from './pages/teste copy'
 
-      <BrowserRouter>
-        <Routes>
-          <Route path='/' element={<Login/>}/>
-          <Route path='dashboard' children={[
-            <Route path='teste' element={<Teste/>}/>
-          ]}
-          element={<Dashboard/>}/>
-
-        </Routes>
-      </BrowserRouter>
-  )
-}
 
 const router = createBrowserRouter([
   {
@@ -42,8 +27,13 @@ const router = createBrowserRouter([
 
   },
   {
+    path:"/teste2",
+    element: <Teste2/>,    
+  },
+  {
     path:"dashboard",
     element: <FooterAndMenu/>,
+    errorElement: <Page404Error/>,
     children: [
       {
         path:"/dashboard",
